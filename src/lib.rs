@@ -24,10 +24,13 @@
 //!
 //!     #[serde(with = "serde_bytes")]
 //!     byte_buf: Vec<u8>,
+//!
+//!     #[serde(with = "serde_bytes")]
+//!     byte_array: [u8; 314],
 //! }
 //! ```
 
-#![doc(html_root_url = "https://docs.rs/serde_bytes/0.11.8")]
+#![doc(html_root_url = "https://docs.rs/serde_bytes/0.11.7")]
 #![cfg_attr(not(feature = "std"), no_std)]
 #![deny(missing_docs)]
 #![allow(
@@ -36,6 +39,7 @@
     clippy::needless_doctest_main
 )]
 
+mod bytearray;
 mod bytes;
 mod de;
 mod ser;
@@ -51,6 +55,7 @@ use serde::Deserializer;
 
 use serde::Serializer;
 
+pub use crate::bytearray::ByteArray;
 pub use crate::bytes::Bytes;
 pub use crate::de::Deserialize;
 pub use crate::ser::Serialize;
@@ -76,6 +81,9 @@ pub use crate::bytebuf::ByteBuf;
 ///
 ///     #[serde(with = "serde_bytes")]
 ///     byte_buf: Vec<u8>,
+///
+///     #[serde(with = "serde_bytes")]
+///     byte_array: [u8; 314],
 /// }
 /// ```
 pub fn serialize<T, S>(bytes: &T, serializer: S) -> Result<S::Ok, S::Error>
@@ -101,6 +109,9 @@ where
 /// struct Packet {
 ///     #[serde(with = "serde_bytes")]
 ///     payload: Vec<u8>,
+///
+///     #[serde(with = "serde_bytes")]
+///     byte_array: [u8; 314],
 /// }
 /// ```
 #[cfg(any(feature = "std", feature = "alloc"))]
